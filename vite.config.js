@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react(), VitePWA({
     registerType: 'autoUpdate',
-    injectRegister: false,
+    injectRegister: 'auto',
 
     pwaAssets: {
       disabled: false,
@@ -18,6 +18,12 @@ export default defineConfig({
       short_name: 'allenare',
       description: 'allenare',
       theme_color: '#ffffff',
+      display_override: [
+        "fullscreen",
+        "minimal-ui",
+        "window-controls-overlay"
+      ],
+      display: "standalone",
     },
 
     workbox: {
@@ -27,7 +33,7 @@ export default defineConfig({
     },
 
     devOptions: {
-      enabled: false,
+      enabled: true,
       navigateFallback: 'index.html',
       suppressWarnings: true,
       type: 'module',
