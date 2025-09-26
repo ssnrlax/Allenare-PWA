@@ -6,7 +6,7 @@ import RouteMap from './components/dashboard/RouteMap';
 import Sidebar from './components/dashboard/Sidebar';
 import './App.css';
 
-function App() {
+export default function App() {
   return (
     <div className="dashboard-container">
       <div className="main-content">
@@ -25,5 +25,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
