@@ -1,6 +1,5 @@
-/* Base styles for all stat cards (e.g., DashboardPage) */
 .stats-card {
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 15px;
   color: #fff;
   display: flex;
@@ -21,13 +20,13 @@
 
 .stats-card h3 {
   margin-top: 0;
-  font-size: 1.5rem; /* Corrected "rem" to a valid unit "1rem" */
+  font-size: rem;
   font-weight: normal;
 }
 
 .stat-content {
   margin-top: 0;
-  font-size: 3rem;
+  font-size: 2rem;
   display: flex;
   flex-direction: column;
   height: 90%;
@@ -41,18 +40,15 @@
 
 .text-center {
   text-align: left;
-  /* `justify-content` and `align-items` are for flexbox/grid containers, not text alignment.
-     Using `left` as a value for these properties is also invalid. */
-  justify-content: unset;
-  align-items: unset;
+  justify-content: left;
+  align-items: left;
 }
 
-/* Specific styles for the "distance" stat card */
 .distance-content {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center; /* Changed from "left" to "center" for proper vertical alignment */
+  align-items: left;
   height: 100%;
 }
 
@@ -80,4 +76,22 @@
 .distance-content .runner-icon {
   font-size: 4rem;
   margin-top: 0;
+}
+
+.stats-card.registro-stat {
+  height: 200px; /* La altura deseada para la tarjeta de RegistroPage */
+}
+
+/* Estilo específico para la tarjeta en RegistroPage */
+.stats-card.inline-stats {
+  flex-direction: row;
+  align-items: center;
+}
+
+.stats-card.inline-stats .stat-content {
+  flex-direction: row;
+}
+
+.stat-content p {
+  font-weight: bold;
 }
