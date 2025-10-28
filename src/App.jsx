@@ -1,25 +1,54 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage';
-import RegistroPage from './pages/RegistroPage';
-import EstadisticasPage from './pages/EstadisticasPage';
-import Sidebar from './components/dashboard/Sidebar';
+import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './pages/ProtectedRoute'; // Ajustaremos esta ruta si es necesario
+import ReloadPrompt from './ReloadPrompt';
+import PWABadge from './PWABadge';
 import './App.css';
-import FuerzaPage from './pages/FuerzaPage';  
 
 function App() {
+  // Revisa sessionStorage para mantener el estado de autenticación
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    try {
+      return sessionStorage.getItem('isAuthenticated') === 'true';
+    } catch (e) {
+      console.warn('No se pudo acceder a sessionStorage. Se iniciará sin autenticación.');
+      return false;
+    }
+  });
+
+  // Actualiza sessionStorage cuando el estado de autenticación cambia
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('isAuthenticated', isAuthenticated);
+    } catch (e) {
+      console.warn('No se pudo escribir en sessionStorage. El estado de autenticación no se persistirá.');
+    }
+  }, [isAuthenticated]);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
   return (
-    <Router>
-      <div className="dashboard-container">
+    <>
+      <Router>
         <Routes>
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/registro" element={<RegistroPage />} />
-          <Route path="/estadisticas" element={<EstadisticasPage />} />
-          <Route path="/fuerza" element={<FuerzaPage />} />
+          <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <DashboardPage />
+              </ProtectedRoute>
+            } />
+          <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
         </Routes>
-        <Sidebar />
-      </div>
-    </Router>
+      </Router>
+      <ReloadPrompt />
+      <PWABadge />
+    </>
   );
 }
 
